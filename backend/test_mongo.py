@@ -1,10 +1,21 @@
-from pymongo import MongoClient
+import asyncio
 
-uri = "mongodb+srv://Anitha2005_db_user:Anitha2005@cluster0.ywvowwr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+from app.database.mongodb import client
 
-try:
-    client = MongoClient(uri)
-    print(client.list_database_names())
-    print("MongoDB Connected Successfully")
-except Exception as e:
-    print(e)
+
+async def test():
+    try:
+        result = await client.admin.command("ping")
+
+        print("MongoDB Connected Successfully!")
+        print("Ping Result:", result)
+
+    except Exception as e:
+        print("MongoDB Connection Error:")
+        print(repr(e))
+
+    finally:
+        client.close()
+
+
+asyncio.run(test())
