@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API = axios.create({
- baseURL: "https://ai-resume-analyzer-dn7p.onrender.com",
+const api = axios.create({
+  baseURL: "https://ai-resume-analyzer-backend-dn7p.onrender.com",
 });
 
-export default API;
+export default api;

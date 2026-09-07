@@ -16,3 +16,4 @@ pydantic
 certifi
 pytest
 pytest-asyncio
+google-genai

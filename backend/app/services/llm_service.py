@@ -1,9 +1,17 @@
-import ollama
+import os
+from dotenv import load_dotenv
+from google import genai
+
+load_dotenv()
+
+api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    raise ValueError("GEMINI_API_KEY is missing")
+
+client = genai.Client(api_key=api_key)
 
 
-# ---------------------------------------
-# AI Resume Analysis
-# ---------------------------------------
 def analyze_resume_ai(resume_text: str):
 
     prompt = f"""
@@ -33,22 +41,14 @@ Resume:
 {resume_text}
 """
 
-    response = ollama.chat(
-        model="llama3.2",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
+    response = client.models.generate_content(
+        model="gemini-3.7-flash",
+        contents=prompt
     )
 
-    return response["message"]["content"]
+    return response.text
 
 
-# ---------------------------------------
-# AI Job Match Analysis
-# ---------------------------------------
 def analyze_job_match_ai(
     resume_text: str,
     job_description: str
@@ -88,14 +88,9 @@ Job Description:
 {job_description}
 """
 
-    response = ollama.chat(
-        model="llama3.2",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
+    response = client.models.generate_content(
+        model="gemini-3.7-flash",
+        contents=prompt
     )
 
-    return response["message"]["content"]
+    return response.text
